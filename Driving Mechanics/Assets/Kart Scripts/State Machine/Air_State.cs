@@ -11,9 +11,19 @@ public class Air_State : State_Base
     [SerializeField] private float applyGravityRayDistance;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private State_Base onTouchGround;
-    [SerializeField] private float turnSpeedMultiplier = 2f;
+    [SerializeField] private float xTurnSpeedMultiplier = 2f;
+    [SerializeField] private float yTurnSpeedMultiplier = 2f;
 
     private float currentSpeed;
+    private float elaspedTime;
+
+
+    public override void OnEnter(Rigidbody passedRB, GameObject pKartModel, GameObject pKartNormal, Kart_Input pInput, Kart_Stats pStats, Player_Stats pPlayerStats)
+    {
+        base.OnEnter(passedRB, pKartModel, pKartNormal, pInput, pStats, pPlayerStats);
+        elaspedTime = 0;
+        Debug.Log("Flying State");
+    }
     public override void AButton()
     {
         float button = input.Kart_Controls.ActionButton.ReadValue<float>(); //read value of A button
@@ -42,14 +52,27 @@ public class Air_State : State_Base
         }
     }
 
+    public void GroundPull()
+    {
+        if (elaspedTime <= kart_stats.flightTime)
+        {
+            elaspedTime += Time.deltaTime;
+        }
+
+        float gravityPercentage = elaspedTime / kart_stats.flightTime;
+        float curve = kart_stats.flightCurve.Evaluate(gravityPercentage);
+        //Debug.Log($"{gravityPercentage}% = {curve}");
+        rb.AddForce(Vector3.up * gravity * (gravityMultiplier * curve));
+    }
+
     public override void LeftStick()
     {
         Vector2 move = input.Kart_Controls.Move.ReadValue<Vector2>();
 
         float x = kartModel.transform.eulerAngles.x;
         float y = kartModel.transform.eulerAngles.y;
-        x = x + (move.y * (kart_stats.turnSpeed * player_stats.turn) * turnSpeedMultiplier * Time.deltaTime);
-        y = y + (move.x * (kart_stats.turnSpeed * player_stats.turn) * turnSpeedMultiplier * Time.deltaTime);
+        x = x + (move.y * (kart_stats.turnSpeed * player_stats.turn) * xTurnSpeedMultiplier * Time.deltaTime);
+        y = y + (move.x * (kart_stats.turnSpeed * player_stats.turn) * yTurnSpeedMultiplier * Time.deltaTime);
         kartModel.transform.rotation = Quaternion.Euler(x, y, 0);
     }
 
@@ -59,7 +82,7 @@ public class Air_State : State_Base
 
         if (button == 0)
         {
-            currentSpeed = Mathf.Lerp(currentSpeed, kart_stats.topSpeed * player_stats.topSpeed2, Time.deltaTime * kart_stats.accelrateRate);
+            currentSpeed = Mathf.Lerp(currentSpeed, kart_stats.topSpeed * player_stats.topSpeed, Time.deltaTime * kart_stats.accelrateRate);
         }
         rb.AddForce(kartModel.transform.forward * currentSpeed * kart_stats.forceMultiplier.DataValue);
     }

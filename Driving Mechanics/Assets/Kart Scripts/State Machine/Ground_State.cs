@@ -22,8 +22,10 @@ public class Ground_State : State_Base
     {
         base.OnEnter(passedRB, pKartModel, pKartNormal, pInput, pStats, pPlayerStats);
 
-        kartModel.transform.eulerAngles = new Vector3(0,kartModel.transform.eulerAngles.y,kartModel.transform.eulerAngles.z);
-        currentSpeed= 0f;
+        //kartModel.transform.eulerAngles = new Vector3(0, kartModel.transform.eulerAngles.y,kartModel.transform.eulerAngles.z);
+        //kartModel.transform.eulerAngles = new Vector3(0, 0, 0);
+        kartModel.transform.localEulerAngles = new Vector3(0, kartModel.transform.localEulerAngles.y, kartModel.transform.localEulerAngles.z);
+        currentSpeed = 0f;
         if (particleEffect == null)
         {
             particleEffect = Instantiate(particleEffectPrefab, kartNormal.transform.position, Quaternion.identity);
@@ -94,21 +96,34 @@ public class Ground_State : State_Base
 
         if (button == 1)
         {
-            //currentSpeed -= kart_stats.decelerateRate * player_stats.weight * Time.deltaTime;
-            currentSpeed = Mathf.Lerp(currentSpeed, 0, Time.deltaTime * (kart_stats.decelerateRate * player_stats.weight) * currentSpeed);
-            if (currentSpeed < 0) { currentSpeed = 0; }
+            Vector2 move = input.Kart_Controls.Move.ReadValue<Vector2>();
+
+            if (move.y < 0.1)
+            {
+                currentSpeed = Mathf.Lerp(currentSpeed, 0, Time.deltaTime * (kart_stats.decelerateRate * player_stats.weight));
+                if (currentSpeed < 0) { currentSpeed = 0; }
+            }
+            else
+            {
+                //currentSpeed = Mathf.Lerp(currentSpeed, (kart_stats.topSpeed * player_stats.topSpeed) / 4, Time.deltaTime * kart_stats.accelrateRate);
+                currentSpeed = kart_stats.scootSpeed.DataValue;
+            }
         }
     }
 
     public override void Move()
     {
         float button = input.Kart_Controls.ActionButton.ReadValue<float>();
+        float configureSpeed = (kart_stats.boostValue.DataValue * kart_stats.boostMultiplier) + 1;
 
         if (button == 0)
         {
             currentSpeed = Mathf.Lerp(currentSpeed, kart_stats.topSpeed * player_stats.topSpeed, Time.deltaTime * kart_stats.accelrateRate);
         }
-        float configureSpeed = (kart_stats.boostValue.DataValue * kart_stats.boostMultiplier) + 1;
+        else
+        {
+            configureSpeed = 1;
+        }
         rb.AddForce(kartModel.transform.forward * ((currentSpeed * configureSpeed * kart_stats.forceMultiplier.DataValue)));
     }
 

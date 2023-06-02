@@ -46,8 +46,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 11400000}
-        m_TargetAssemblyTypeName: Ground_State, Assembly-CSharp
-        m_MethodName: MatchNormal
+        m_TargetAssemblyTypeName: State_Base, Assembly-CSharp
+        m_MethodName: LeftStick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -58,8 +58,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 11400000}
-        m_TargetAssemblyTypeName: State_Base, Assembly-CSharp
-        m_MethodName: LeftStick
+        m_TargetAssemblyTypeName: Ground_State, Assembly-CSharp
+        m_MethodName: MatchNormal
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

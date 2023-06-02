@@ -6,6 +6,7 @@ public class Kart_Stats : ScriptableObject
     [Header("Kart Movement Variables")]
     [SerializeField] public float decelerateRate;
     [SerializeField] public float topSpeed;
+    [SerializeField] public DataFloat scootSpeed;
     [SerializeField] public float accelrateRate;
     [SerializeField] public DataFloat forceMultiplier;
     [Header("Boost Variables")]
@@ -18,4 +19,7 @@ public class Kart_Stats : ScriptableObject
     [Header("Turn Variables")]
     [SerializeField] public float turnSpeed = 1f;
     [SerializeField] public float turnSpeedMultiplier = 1f;
+    [Header("Flight Variables")]
+    [SerializeField] public float flightTime;
+    [SerializeField] public AnimationCurve flightCurve;
 }

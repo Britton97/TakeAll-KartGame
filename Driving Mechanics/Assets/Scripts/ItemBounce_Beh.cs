@@ -5,6 +5,7 @@ using UnityEngine;
 public class ItemBounce_Beh : MonoBehaviour
 {
     [SerializeField] AnimationCurve curve;
+    [SerializeField] float curveMultiplier = 1;
     [SerializeField] float animationDuration;
     private Vector3 startingPos;
     float elapsedTime = 0f;
@@ -21,6 +22,6 @@ public class ItemBounce_Beh : MonoBehaviour
         elapsedTime += Time.deltaTime;
         if(elapsedTime > animationDuration) { elapsedTime = 0f; }
         float curveValue = curve.Evaluate(elapsedTime/animationDuration);
-        transform.position = new Vector3(transform.position.x, startingPos.y + curveValue, transform.position.z);
+        transform.position = new Vector3(transform.position.x, startingPos.y + (curveValue * curveMultiplier), transform.position.z);
     }
 }
