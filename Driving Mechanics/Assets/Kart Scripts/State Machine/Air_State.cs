@@ -14,6 +14,9 @@ public class Air_State : State_Base
     [SerializeField] private float xTurnSpeedMultiplier = 2f;
     [SerializeField] private float yTurnSpeedMultiplier = 2f;
 
+    private float calculatedDotProduct;
+    private float dotProduct;
+
     private float currentSpeed;
     private float elaspedTime;
 
@@ -22,6 +25,7 @@ public class Air_State : State_Base
     {
         base.OnEnter(passedRB, pKartModel, pKartNormal, pInput, pStats, pPlayerStats);
         elaspedTime = 0;
+        kart_stats.canAffectCharge = false;
         Debug.Log("Flying State");
     }
     public override void AButton()
@@ -54,15 +58,18 @@ public class Air_State : State_Base
 
     public void GroundPull()
     {
-        if (elaspedTime <= kart_stats.flightTime)
+        //if elaspedTime is greater than flightTime
+        //then start evaluating the flightcurve and apply the force
+        elaspedTime += Time.deltaTime * (2 - dotProduct);
+        if (elaspedTime > kart_stats.flightTime * player_stats.glide)
         {
-            elaspedTime += Time.deltaTime;
+            float timePassed = elaspedTime - (kart_stats.flightTime * player_stats.glide);
+            float gravityPercentage = timePassed / ((kart_stats.flightTime * player_stats.glide) / 2); //after full flight time has elapsed, start applying gravity by the rate of half the flight time
+            float curve = kart_stats.flightCurve.Evaluate(gravityPercentage);
+            rb.AddForce(Vector3.up * gravity * (gravityMultiplier * curve));
         }
 
-        float gravityPercentage = elaspedTime / kart_stats.flightTime;
-        float curve = kart_stats.flightCurve.Evaluate(gravityPercentage);
-        //Debug.Log($"{gravityPercentage}% = {curve}");
-        rb.AddForce(Vector3.up * gravity * (gravityMultiplier * curve));
+        kart_stats.boostValue.DataValue = elaspedTime / kart_stats.flightTime;
     }
 
     public override void LeftStick()
@@ -84,6 +91,15 @@ public class Air_State : State_Base
         {
             currentSpeed = Mathf.Lerp(currentSpeed, kart_stats.topSpeed * player_stats.topSpeed, Time.deltaTime * kart_stats.accelrateRate);
         }
-        rb.AddForce(kartModel.transform.forward * currentSpeed * kart_stats.forceMultiplier.DataValue);
+        rb.AddForce((kartModel.transform.forward * currentSpeed * kart_stats.forceMultiplier.DataValue) * calculatedDotProduct);
+    }
+
+    public void FlyingAngle()
+    {
+        dotProduct = Vector3.Dot(Vector3.up ,kartModel.transform.forward);
+        dotProduct = 1 - dotProduct;
+        Debug.Log(dotProduct);
+        calculatedDotProduct = kart_stats.flightPowerCurve.Evaluate(dotProduct);
+        float t = kart_stats.flightPowerCurve.keys[kart_stats.flightPowerCurve.length - 1].value;
     }
 }

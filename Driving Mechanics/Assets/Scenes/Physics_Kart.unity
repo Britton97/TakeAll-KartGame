@@ -2138,7 +2138,7 @@ MonoBehaviour:
   burst: {fileID: 1125451837}
   onCollisionData:
     useConstant: 1
-    constantValue: 2
+    constantValue: 0.1
     data: {fileID: 0}
     dataEvent:
       m_PersistentCalls:
@@ -18175,11 +18175,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2835360696007666936, guid: 2a3e2fbd4772689449729662b05354d7, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000017313399
+      value: 0.0000000173134
       objectReference: {fileID: 0}
     - target: {fileID: 2835360696007666936, guid: 2a3e2fbd4772689449729662b05354d7, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 9.651926e-10
+      value: -9.651927e-10
       objectReference: {fileID: 0}
     - target: {fileID: 2835360696523257670, guid: 2a3e2fbd4772689449729662b05354d7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18195,15 +18195,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2835360696523257670, guid: 2a3e2fbd4772689449729662b05354d7, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.09189377
+      value: 0.091893785
       objectReference: {fileID: 0}
     - target: {fileID: 2835360696523257670, guid: 2a3e2fbd4772689449729662b05354d7, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.0000000019680446
+      value: 0.0000000130000135
       objectReference: {fileID: 0}
     - target: {fileID: 2835360696523257670, guid: 2a3e2fbd4772689449729662b05354d7, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 1.8161937e-10
+      value: -0.0000000011996966
       objectReference: {fileID: 0}
     - target: {fileID: 2835360696535970262, guid: 2a3e2fbd4772689449729662b05354d7, type: 3}
       propertyPath: m_XDamping
@@ -18716,7 +18716,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 636239748643304170, guid: 19b7c1a71d8ca98488f5b2e1baa87705, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11
+      value: 5.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 636239748643304170, guid: 19b7c1a71d8ca98488f5b2e1baa87705, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 22.23
       objectReference: {fileID: 0}
     - target: {fileID: 636239749302557197, guid: 19b7c1a71d8ca98488f5b2e1baa87705, type: 3}
       propertyPath: m_LocalPosition.x

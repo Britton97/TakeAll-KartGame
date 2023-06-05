@@ -22,4 +22,6 @@ public class Kart_Stats : ScriptableObject
     [Header("Flight Variables")]
     [SerializeField] public float flightTime;
     [SerializeField] public AnimationCurve flightCurve;
+    [SerializeField] public AnimationCurve flightPowerCurve;
+    [HideInInspector] public bool canAffectCharge = true;
 }

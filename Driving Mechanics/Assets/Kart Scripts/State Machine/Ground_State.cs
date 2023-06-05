@@ -22,8 +22,6 @@ public class Ground_State : State_Base
     {
         base.OnEnter(passedRB, pKartModel, pKartNormal, pInput, pStats, pPlayerStats);
 
-        //kartModel.transform.eulerAngles = new Vector3(0, kartModel.transform.eulerAngles.y,kartModel.transform.eulerAngles.z);
-        //kartModel.transform.eulerAngles = new Vector3(0, 0, 0);
         kartModel.transform.localEulerAngles = new Vector3(0, kartModel.transform.localEulerAngles.y, kartModel.transform.localEulerAngles.z);
         currentSpeed = 0f;
         if (particleEffect == null)
@@ -32,6 +30,8 @@ public class Ground_State : State_Base
             particleEffect.transform.parent = kartNormal.transform;
             particleEffect.SetActive(false);
         }
+
+        kart_stats.canAffectCharge = true;
         Debug.Log("Ground State");
     }
 

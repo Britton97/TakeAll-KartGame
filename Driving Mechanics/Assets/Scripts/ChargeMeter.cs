@@ -46,15 +46,13 @@ public class ChargeMeter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!kartStats.canAffectCharge) { UpdateMeter(); return;}
         button = input.Kart_Controls.ActionButton.ReadValue<float>(); //read value of A button
         if (button == 1) //if 'A' button held down execute below
         {
-            //boostValue.DataValue = 0;
             if (boostSlider.value < boostSlider.maxValue)
             {
-                //boostValue.DataValue += (playerStats.charge * Time.deltaTime);
                 boostSlider.value += (chargeTime * Time.deltaTime);
-                //boostSlider.value = boostValue.DataValue;
             }
             finishedPercentage = boostSlider.value / boostSlider.maxValue;
         }
@@ -66,5 +64,11 @@ public class ChargeMeter : MonoBehaviour
                 kartStats.boostValue.DataValue = kartStats.boostCurve.Evaluate(finishedPercentage) * boostSlider.value;
             }
         }
+    }
+
+    public void UpdateMeter()
+    {
+        Debug.Log("called");
+        boostSlider.value = kartStats.boostValue.DataValue;
     }
 }
