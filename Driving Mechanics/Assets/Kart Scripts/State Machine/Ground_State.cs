@@ -6,11 +6,15 @@ using UnityEngine.UIElements;
 [CreateAssetMenu(menuName = "Kart States/Ground", fileName = "Ground State")]
 public class Ground_State : State_Base
 {
+    [Header("Game Actions")]
+    [SerializeField] private GameAction leaveKartAction;
+    [Header("Ground State Variables")]
     [SerializeField] private float rayDistance = 1f;
     [SerializeField] private float applyGravityRayDistance;
     [SerializeField] private float wallRayDistance;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private State_Base onTouchAir;
+    [SerializeField] private State_Base onLeaveKart;
     [SerializeField] private AnimationCurve turnCurve;
     private float currentSpeed;
     private float rotate;
@@ -18,9 +22,9 @@ public class Ground_State : State_Base
     [SerializeField] private GameObject particleEffectPrefab;
     private GameObject particleEffect;
 
-    public override void OnEnter(Rigidbody passedRB, GameObject pKartModel, GameObject pKartNormal, Kart_Input pInput, Kart_Stats pStats, Player_Stats pPlayerStats)
+    public override void OnEnter(Rigidbody passedRB, GameObject pKartModel, GameObject pKartNormal, GameObject pTiltObject, Kart_Input pInput, Kart_Stats pStats, Player_Stats pPlayerStats)
     {
-        base.OnEnter(passedRB, pKartModel, pKartNormal, pInput, pStats, pPlayerStats);
+        base.OnEnter(passedRB, pKartModel, pKartNormal, pTiltObject, pInput, pStats, pPlayerStats);
 
         kartModel.transform.localEulerAngles = new Vector3(0, kartModel.transform.localEulerAngles.y, kartModel.transform.localEulerAngles.z);
         currentSpeed = 0f;
@@ -98,14 +102,18 @@ public class Ground_State : State_Base
         {
             Vector2 move = input.Kart_Controls.Move.ReadValue<Vector2>();
 
-            if (move.y < 0.1)
+            currentSpeed = Mathf.Lerp(currentSpeed, 0, Time.deltaTime * (kart_stats.decelerateRate * player_stats.weight));
+
+            if (currentSpeed < 0) { currentSpeed = 0; }
+
+            if (move.y < -.95)
             {
-                currentSpeed = Mathf.Lerp(currentSpeed, 0, Time.deltaTime * (kart_stats.decelerateRate * player_stats.weight));
-                if (currentSpeed < 0) { currentSpeed = 0; }
+                //Debug.Log("Get off kart");
+                leaveKartAction.InvokeAction();
             }
-            else
+            else if (move.y > 0)
             {
-                //currentSpeed = Mathf.Lerp(currentSpeed, (kart_stats.topSpeed * player_stats.topSpeed) / 4, Time.deltaTime * kart_stats.accelrateRate);
+                Debug.Log("Scooting");
                 currentSpeed = kart_stats.scootSpeed.DataValue;
             }
         }
@@ -135,7 +143,6 @@ public class Ground_State : State_Base
         if (Physics.Raycast(kartNormal.transform.position, kartModel.transform.forward, out hit, wallRayDistance, groundLayer))
         {
             currentSpeed = 0;
-            Debug.Log("Wall Hit");
         }
     }
 }

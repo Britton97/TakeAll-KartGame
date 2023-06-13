@@ -21,9 +21,9 @@ public class Air_State : State_Base
     private float elaspedTime;
 
 
-    public override void OnEnter(Rigidbody passedRB, GameObject pKartModel, GameObject pKartNormal, Kart_Input pInput, Kart_Stats pStats, Player_Stats pPlayerStats)
+    public override void OnEnter(Rigidbody passedRB, GameObject pKartModel, GameObject pKartNormal, GameObject pTiltObject, Kart_Input pInput, Kart_Stats pStats, Player_Stats pPlayerStats)
     {
-        base.OnEnter(passedRB, pKartModel, pKartNormal, pInput, pStats, pPlayerStats);
+        base.OnEnter(passedRB, pKartModel, pKartNormal, pTiltObject, pInput, pStats, pPlayerStats);
         elaspedTime = 0;
         kart_stats.canAffectCharge = false;
         Debug.Log("Flying State");
@@ -98,7 +98,7 @@ public class Air_State : State_Base
     {
         dotProduct = Vector3.Dot(Vector3.up ,kartModel.transform.forward);
         dotProduct = 1 - dotProduct;
-        Debug.Log(dotProduct);
+        //Debug.Log(dotProduct);
         calculatedDotProduct = kart_stats.flightPowerCurve.Evaluate(dotProduct);
         float t = kart_stats.flightPowerCurve.keys[kart_stats.flightPowerCurve.length - 1].value;
     }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Kart_Stats
   m_EditorClassIdentifier: 
   decelerateRate: 2
-  topSpeed: 20
+  topSpeed: 12
   scootSpeed: {fileID: 11400000, guid: d60cdb92e795c4047abfa94541bd533f, type: 2}
   accelrateRate: 10
   forceMultiplier: {fileID: 11400000, guid: ae41fa63509894e48a8a3d4b81468e10, type: 2}
@@ -114,4 +114,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  canAffectCharge: 0
+  canAffectCharge: 1

@@ -1,17 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CollisionHandler : MonoBehaviour
 {
-    [SerializeField] List<LayerMask> interactableLayers = new List<LayerMask>();
-    //[SerializeField] DataReference onCollisionData;
+    [SerializeField] public InterfaceChecker interfaceChecker;
+    [SerializeField] public UnityEvent<GameObject, GameObject> CollisionHandlerEvent;
+    [SerializeField] public UnityEvent onPassedInterfaceCheck;
+
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (interactableLayers.Contains(collision.gameObject.layer))
+        //Debug.Log($"Collision with {collision.gameObject.name}");
+        if(interfaceChecker.CheckInterface(collision.gameObject) != null)
         {
-            //onCollisionData.dataEvent.Invoke(onCollisionData);
+            onPassedInterfaceCheck.Invoke();
+            CollisionHandlerEvent.Invoke(this.gameObject ,collision.gameObject);
         }
     }
+}
+
+public interface ICollisionHandlerable
+{
+    void CollisionHandler(GameObject hitObject, GameObject hittingObject);
 }

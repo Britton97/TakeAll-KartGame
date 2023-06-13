@@ -68,7 +68,7 @@ public class ChargeMeter : MonoBehaviour
 
     public void UpdateMeter()
     {
-        Debug.Log("called");
+        //Debug.Log("called");
         boostSlider.value = kartStats.boostValue.DataValue;
     }
 }

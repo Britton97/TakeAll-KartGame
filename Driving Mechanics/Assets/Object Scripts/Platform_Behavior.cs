@@ -8,12 +8,14 @@ public class Platform_Behavior : MonoBehaviour
 {
     [SerializeField] List<GameObject> points = new List<GameObject>();
     [SerializeField] private float duration = 5f;
+    [SerializeField] private float waitDuration = 5;
     private float elaspedTime;
     private GameObject currentTarget;
     private GameObject lastTarget;
     private int counter = 1;
     [SerializeField] private LayerMask playerLayer;
     private List<GameObject> playersOnPlatform = new List<GameObject>();
+    private bool waiting = false;
 
     private void Start()
     {
@@ -33,21 +35,33 @@ public class Platform_Behavior : MonoBehaviour
         float percentageComplete = elaspedTime / duration;
         transform.position = Vector3.Lerp(lastTarget.transform.position, currentTarget.transform.position, percentageComplete);
 
-        if(transform.position == currentTarget.transform.position)
+        if(transform.position == currentTarget.transform.position && waiting == false)
         {
-            lastTarget = currentTarget;
-            if(counter < points.Count - 1)
-            {
-                counter++;
-                currentTarget = points[counter];
-            }
-            else
-            {
-                counter = 0;
-                currentTarget = points[counter];
-            }
-            elaspedTime = 0;
+            StartCoroutine(WaitAtPoint());
         }
+    }
+
+    public IEnumerator WaitAtPoint()
+    {
+        waiting = true;
+        //Debug.Log("Waiting");
+
+        yield return new WaitForSeconds(waitDuration);
+
+        lastTarget = currentTarget;
+        if (counter < points.Count - 1)
+        {
+            counter++;
+            currentTarget = points[counter];
+        }
+        else
+        {
+            counter = 0;
+            currentTarget = points[counter];
+        }
+        elaspedTime = 0;
+
+        waiting = false;
     }
 
     public void TurnOffMesh()

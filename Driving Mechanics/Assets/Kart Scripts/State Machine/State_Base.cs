@@ -25,11 +25,11 @@ public class State_Base : ScriptableObject
     [SerializeField] public float gravity = -9.81f;
     [SerializeField] public float gravityMultiplier = 1000f;
 
-    public virtual void OnEnter(Rigidbody passedRB, GameObject pKartModel, GameObject pKartNormal, Kart_Input pInput, Kart_Stats pStats, Player_Stats pPlayerStats)
+    public virtual void OnEnter(Rigidbody passedRB, GameObject pKartModel, GameObject pKartNormal, GameObject pTiltObject, Kart_Input pInput, Kart_Stats pStats, Player_Stats pPlayerStats)
     {
         rb = passedRB;
         kartModel = pKartModel;
-        tiltObject = pKartModel.transform.GetChild(0).gameObject;
+        tiltObject = pTiltObject;
         kartNormal = pKartNormal;
         input = pInput;
         kart_stats = pStats;
@@ -53,7 +53,6 @@ public class State_Base : ScriptableObject
 
     public virtual void Move() { }
 
-    private float tilt = 10;
     private float currentTiltX;
     private float currentTiltY;
     public virtual void Tilt()
@@ -61,10 +60,8 @@ public class State_Base : ScriptableObject
         Vector2 move = input.Kart_Controls.Move.ReadValue<Vector2>();
         float tiltX = move.x * 20;
         float tiltY = move.y * 10;
-        currentTiltX = Mathf.Lerp(currentTiltX, tiltX, Time.deltaTime * 8f); //new
-        currentTiltY = Mathf.Lerp(currentTiltY, tiltY, Time.deltaTime * 8f); //new
-        //tiltObject.transform.localEulerAngles = new Vector3(tiltY, tiltObject.transform.localEulerAngles.y, -tiltX); //old
-        tiltObject.transform.localEulerAngles = new Vector3(currentTiltY, tiltObject.transform.localEulerAngles.y, -currentTiltX); //new
-        //tiltObject.transform.localEulerAngles = new Vector3(currentTilt * move.y, tiltObject.transform.localEulerAngles.y, currentTilt * move.x); //new
+        currentTiltX = Mathf.Lerp(currentTiltX, tiltX, Time.deltaTime * 8f);
+        currentTiltY = Mathf.Lerp(currentTiltY, tiltY, Time.deltaTime * 8f);
+        tiltObject.transform.localEulerAngles = new Vector3(currentTiltY, tiltObject.transform.localEulerAngles.y, -currentTiltX);
     }
 }
