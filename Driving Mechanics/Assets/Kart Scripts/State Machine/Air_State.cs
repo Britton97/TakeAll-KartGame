@@ -26,7 +26,7 @@ public class Air_State : State_Base
         base.OnEnter(passedRB, pKartModel, pKartNormal, pTiltObject, pInput, pStats, pPlayerStats);
         elaspedTime = 0;
         kart_stats.canAffectCharge = false;
-        Debug.Log("Flying State");
+        //Debug.Log("Flying State");
     }
     public override void AButton()
     {
@@ -52,7 +52,7 @@ public class Air_State : State_Base
         if (Physics.Raycast(kartNormal.transform.position, Vector3.down, rayDistance, groundLayer))
         {
             //Debug.Log("Exiting Air");
-            OnExit(onTouchGround);
+            OnExit(KartState.Ground);
         }
     }
 

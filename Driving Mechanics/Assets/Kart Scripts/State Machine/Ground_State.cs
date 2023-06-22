@@ -36,10 +36,10 @@ public class Ground_State : State_Base
         }
 
         kart_stats.canAffectCharge = true;
-        Debug.Log("Ground State");
+        //Debug.Log("Ground State");
     }
 
-    public override void OnExit(State_Base passIn)
+    public override void OnExit(KartState passIn)
     {
         base.OnExit(passIn);
         particleEffect.SetActive(false);
@@ -51,7 +51,7 @@ public class Ground_State : State_Base
         if (!Physics.Raycast(kartNormal.transform.position, Vector3.down, rayDistance, groundLayer))
         {
             //Debug.Log("Exiting Ground");
-            OnExit(onTouchAir);
+            OnExit(KartState.Flying);
         }
     }
 
@@ -108,12 +108,10 @@ public class Ground_State : State_Base
 
             if (move.y < -.95)
             {
-                //Debug.Log("Get off kart");
                 leaveKartAction.InvokeAction();
             }
             else if (move.y > 0)
             {
-                Debug.Log("Scooting");
                 currentSpeed = kart_stats.scootSpeed.DataValue;
             }
         }

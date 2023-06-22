@@ -16,7 +16,10 @@ public class KartController : MonoBehaviour
     [SerializeField] private GameObject tiltObject;
     [SerializeField] private GameObject lookAtObject;
     //---State Machine---//
-    [SerializeField] public State_Base currentState;
+    //[SerializeField] private KartState startingState;
+    [SerializeField] private State_Base currentState;
+    [SerializeField] private List<State_Base> dataStates;
+    [SerializeField] private Dictionary<KartState, State_Base> stateDictionary = new Dictionary<KartState, State_Base>();
     //---Kart Stats---//
     [SerializeField] Kart_Stats kart_stats;
     [SerializeField] Player_Stats player_stats;
@@ -39,13 +42,31 @@ public class KartController : MonoBehaviour
     private void Awake()
     {
         input = new Kart_Input();
+        CreateStateSOs();
         onAwake.Invoke();
         player_stats.ResetStats();
+
         currentState.OnEnter(rb, kartModel, kartNormal, tiltObject, input, kart_stats, player_stats);
     }
-    public void CallOnEnterState(State_Base passIn)
+    public void CreateStateSOs()
     {
-        currentState = passIn;
+        foreach (State_Base state in dataStates)
+        {
+            //create instance of state
+            State_Base instance = Instantiate(state);
+            KartState s = instance.stateType;
+            //add instance and s to dictionary
+            stateDictionary.Add(s, instance);
+        }
+
+        KartState currentS = currentState.stateType;
+        currentState = stateDictionary[currentS];
+
+    } 
+    public void CallOnEnterState(KartState passIn)
+    {
+        //currentState equals the state that matches the enum
+        currentState = stateDictionary[passIn];
         currentState.OnEnter(rb, kartModel, kartNormal, tiltObject, input, kart_stats, player_stats);
     }
 
@@ -84,15 +105,5 @@ public class KartController : MonoBehaviour
                 rb = child.gameObject.GetComponent<Rigidbody>();
             }
         }
-    }
-
-    public void ReceivePlayerStats(Player_Stats pStats)
-    {
-        player_stats = pStats;
-    }
-
-    public void ReceiveNewParent(GameObject pGameObject)
-    {
-        transform.parent = pGameObject.transform;
     }
 }

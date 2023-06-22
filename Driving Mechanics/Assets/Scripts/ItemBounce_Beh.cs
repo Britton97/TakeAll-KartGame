@@ -12,7 +12,7 @@ public class ItemBounce_Beh : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        startingPos = transform.position;
+        startingPos = transform.localPosition;
     }
 
     // Update is called once per frame
@@ -22,6 +22,6 @@ public class ItemBounce_Beh : MonoBehaviour
         elapsedTime += Time.deltaTime;
         if(elapsedTime > animationDuration) { elapsedTime = 0f; }
         float curveValue = curve.Evaluate(elapsedTime/animationDuration);
-        transform.position = new Vector3(transform.position.x, startingPos.y + (curveValue * curveMultiplier), transform.position.z);
+        transform.localPosition = new Vector3(transform.localPosition.x, startingPos.y + (curveValue * curveMultiplier), transform.localPosition.z);
     }
 }

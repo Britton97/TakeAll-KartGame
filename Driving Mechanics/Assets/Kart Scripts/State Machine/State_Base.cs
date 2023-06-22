@@ -6,6 +6,9 @@ using UnityEngine.UIElements;
 
 public class State_Base : ScriptableObject
 {
+    //---State---//
+    [Header("State Type")]
+    public KartState stateType;
     //---Events---//
     [SerializeField] public UnityEvent onEnterEvent;
     [SerializeField] public UnityEvent onUpdateEvent;
@@ -40,7 +43,7 @@ public class State_Base : ScriptableObject
     public virtual void OnUpdate() { onUpdateEvent.Invoke(); }
     public virtual void OnFixedUpdate() { onFixedUpdateEvent.Invoke(); }
 
-    public virtual void OnExit(State_Base passIn)
+    public virtual void OnExit(KartState passIn)
     {
         onExitEvent.Invoke();
 

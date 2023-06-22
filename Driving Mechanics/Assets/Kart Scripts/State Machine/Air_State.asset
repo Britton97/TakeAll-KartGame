@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e09f859f10823b241948a775297614b5, type: 3}
   m_Name: Air_State
   m_EditorClassIdentifier: 
+  stateType: 1
   onEnterEvent:
     m_PersistentCalls:
       m_Calls: []
