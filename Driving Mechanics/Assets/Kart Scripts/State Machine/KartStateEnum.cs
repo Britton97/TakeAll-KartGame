@@ -10,5 +10,6 @@ public class KartStateEnum
 public enum KartState
 {
     Ground,
-    Flying
+    Flying,
+    None
 }

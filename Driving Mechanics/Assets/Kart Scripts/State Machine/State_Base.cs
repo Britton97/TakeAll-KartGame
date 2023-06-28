@@ -15,8 +15,9 @@ public class State_Base : ScriptableObject
     [SerializeField] public UnityEvent onFixedUpdateEvent;
     [SerializeField] public UnityEvent onExitEvent;
     //--Kart Controller and Input ---//
-    [HideInInspector] public CharacterController controller;
+
     [HideInInspector] public Kart_Input input;
+    [HideInInspector] public KartController kartController;
     //---Kart GameObjects---//
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public GameObject kartNormal;
@@ -34,6 +35,7 @@ public class State_Base : ScriptableObject
         kartModel = pKartModel;
         tiltObject = pTiltObject;
         kartNormal = pKartNormal;
+        kartController = kartNormal.transform.parent.GetComponent<KartController>(); //get KartController
         input = pInput;
         kart_stats = pStats;
         player_stats = pPlayerStats;
@@ -47,8 +49,7 @@ public class State_Base : ScriptableObject
     {
         onExitEvent.Invoke();
 
-        KartController player = kartNormal.transform.parent.GetComponent<KartController>(); //get KartController
-        player.CallOnEnterState(passIn); //call OnEnterState() on the new state
+        kartController.CallOnEnterState(passIn); //call OnEnterState() on the new state
     }
 
     public virtual void AButton() { }

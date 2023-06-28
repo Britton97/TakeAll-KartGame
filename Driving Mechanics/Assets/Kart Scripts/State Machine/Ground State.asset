@@ -121,23 +121,7 @@ MonoBehaviour:
   onExitEvent:
     m_PersistentCalls:
       m_Calls: []
-  TestEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 9dc8f30b5a7f070428b7de1b5a10ed57, type: 2}
-        m_TargetAssemblyTypeName: Debugger_SO, Assembly-CSharp
-        m_MethodName: DebugLog
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: called from instance
-          m_BoolArgument: 0
-        m_CallState: 2
-  testName: 
-  controller: {fileID: 0}
+  kartController: {fileID: 0}
   rb: {fileID: 0}
   kartNormal: {fileID: 0}
   kartModel: {fileID: 0}
@@ -154,7 +138,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   onTouchAir: {fileID: 11400000, guid: f3f0665450f1b17449a871255c8af8c7, type: 2}
-  onLeaveKart: {fileID: 0}
   turnCurve:
     serializedVersion: 2
     m_Curve:
@@ -179,4 +162,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  particleEffectPrefab: {fileID: 4814821800947186152, guid: e503f5105bc04ee478837ab6a28d222e, type: 3}
+  waveEffectPrefab: {fileID: 4503058805829398567, guid: e74bdd35d52a00047a7bce4315699c54, type: 3}
+  waveOffset: {x: 0, y: 0, z: 1.8}

@@ -17,6 +17,11 @@ public class CollisionHandler : MonoBehaviour
         {
             onPassedInterfaceCheck.Invoke();
             CollisionHandlerEvent.Invoke(this.gameObject ,collision.gameObject);
+
+            if(collision.gameObject.GetComponent<ICollisionHandlerable>() != null)
+            {
+                collision.gameObject.GetComponent<ICollisionHandlerable>().CollisionHandler(this.gameObject, collision.gameObject);
+            }
         }
     }
 }

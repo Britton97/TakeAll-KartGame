@@ -5,10 +5,12 @@ using UnityEngine;
 public class VelocityGetter : MonoBehaviour
 {
     [SerializeField] Rigidbody rb;
-    [SerializeField] public DataFloat speed;
+    //[SerializeField] public DataFloat speed;
+    [SerializeField] public float velocity;
 
     private void Update()
     {
-        speed.DataValue = rb.velocity.magnitude;
+        velocity = rb.velocity.magnitude;
+        //speed.DataValue = rb.velocity.magnitude;
     }
 }

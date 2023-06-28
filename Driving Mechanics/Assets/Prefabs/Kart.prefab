@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 3150544523360990533}
   - component: {fileID: 3150544523360990532}
   m_Layer: 0
-  m_Name: Tilt
+  m_Name: Tilt Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,7 +107,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3150544523366282118}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -128,15 +128,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69b92e5bd0b24ba409bd0895529fffe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
+  playerInfoGetter: {fileID: 0}
+  colliderBall: {fileID: 0}
   kartNormal: {fileID: 3150544523541913442}
-  kartModel: {fileID: 2844465566274848152}
+  modelHolder: {fileID: 2844465566274848152}
   tiltObject: {fileID: 3150544523360990534}
   lookAtObject: {fileID: 3150544524322446911}
   currentState: {fileID: 11400000, guid: 88a05082cbef6a54083a85d587a63ced, type: 2}
   dataStates:
   - {fileID: 11400000, guid: 88a05082cbef6a54083a85d587a63ced, type: 2}
   - {fileID: 11400000, guid: f3f0665450f1b17449a871255c8af8c7, type: 2}
+  - {fileID: 11400000, guid: 3cde85f966e11c446a1643e7e5a0ca6c, type: 2}
   kart_stats: {fileID: 11400000, guid: 49fe9a8b62a6d014598069a4f2ab45fb, type: 2}
   player_stats: {fileID: 11400000, guid: bc2b0f8bcdf262a42adda24edd3bee92, type: 2}
   onAwake:
@@ -154,6 +156,144 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onLeaveKart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3877225138340915341}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3150544523360990532}
+        m_TargetAssemblyTypeName: ResetRotation, Assembly-CSharp
+        m_MethodName: Reset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3150544523366282113}
+        m_TargetAssemblyTypeName: SwitchParentBehavior, Assembly-CSharp
+        m_MethodName: SwitchToWorldParent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3150544523366282127}
+        m_TargetAssemblyTypeName: Timer_Beh, Assembly-CSharp
+        m_MethodName: StartTimer
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 2
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 41ef93bdc14c64d4bb85268412d04cb4, type: 2}
+        m_TargetAssemblyTypeName: DataFloat, Assembly-CSharp
+        m_MethodName: set_DataValue
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3150544523366282115}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onEnterKart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 9dc8f30b5a7f070428b7de1b5a10ed57, type: 2}
+        m_TargetAssemblyTypeName: Debugger_SO, Assembly-CSharp
+        m_MethodName: DebugLog
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Got here
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 3150544523366282112}
+        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3150544523366282115}
+        m_TargetAssemblyTypeName: KartController, Assembly-CSharp
+        m_MethodName: SetCameraFollow
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 3877225138340915341}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 3150544523366282115}
+        m_TargetAssemblyTypeName: KartController, Assembly-CSharp
+        m_MethodName: FindPlayerRigidbody
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   cinemachineCam: {fileID: 11400000, guid: c7002ff61de65774a9a9af23cdec1b0e, type: 2}
 --- !u!114 &3150544523366282114
 MonoBehaviour:
@@ -162,7 +302,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3150544523366282118}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c1fe70cf2008c19469aff6066cea003e, type: 3}
   m_Name: 
@@ -253,7 +393,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3150544523366282118}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c1fe70cf2008c19469aff6066cea003e, type: 3}
   m_Name: 
@@ -398,7 +538,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3150544523541913441}
   m_Layer: 0
-  m_Name: Normal
+  m_Name: Kart Normal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -600,7 +740,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9183352314317055548}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

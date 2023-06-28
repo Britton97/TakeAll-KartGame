@@ -14,13 +14,14 @@ public class Ground_State : State_Base
     [SerializeField] private float wallRayDistance;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private State_Base onTouchAir;
-    [SerializeField] private State_Base onLeaveKart;
     [SerializeField] private AnimationCurve turnCurve;
     private float currentSpeed;
-    private float rotate;
-    private float currentRotate;
-    [SerializeField] private GameObject particleEffectPrefab;
-    private GameObject particleEffect;
+
+    [Header("Wave Effect Settings")]
+    [SerializeField] private GameObject waveEffectPrefab;
+    private GameObject waveEffect;
+    [SerializeField] private Vector3 waveOffset = new Vector3(0,0,1.8f);
+    private WaveController waveController;
 
     public override void OnEnter(Rigidbody passedRB, GameObject pKartModel, GameObject pKartNormal, GameObject pTiltObject, Kart_Input pInput, Kart_Stats pStats, Player_Stats pPlayerStats)
     {
@@ -28,13 +29,17 @@ public class Ground_State : State_Base
 
         kartModel.transform.localEulerAngles = new Vector3(0, kartModel.transform.localEulerAngles.y, kartModel.transform.localEulerAngles.z);
         currentSpeed = 0f;
-        if (particleEffect == null)
+        if (waveEffect == null)
         {
-            particleEffect = Instantiate(particleEffectPrefab, kartNormal.transform.position, Quaternion.identity);
-            particleEffect.transform.parent = kartNormal.transform;
-            particleEffect.SetActive(false);
+            waveEffect = Instantiate(waveEffectPrefab, kartModel.transform.position, Quaternion.identity);
+            waveEffect.transform.parent = kartModel.transform;
+            waveEffect.transform.localPosition = waveOffset;
+            waveEffect.transform.localRotation = Quaternion.Euler(new Vector3(0,0,0));
+            waveController = waveEffect.GetComponent<WaveController>();
+            waveEffect.SetActive(true);
         }
 
+        waveEffect.SetActive(true);
         kart_stats.canAffectCharge = true;
         //Debug.Log("Ground State");
     }
@@ -42,7 +47,7 @@ public class Ground_State : State_Base
     public override void OnExit(KartState passIn)
     {
         base.OnExit(passIn);
-        particleEffect.SetActive(false);
+        waveEffect.SetActive(false);
     }
 
     public void AirCheck()
@@ -50,11 +55,13 @@ public class Ground_State : State_Base
         Debug.DrawRay(kartNormal.transform.position, Vector3.down * rayDistance, Color.red);
         if (!Physics.Raycast(kartNormal.transform.position, Vector3.down, rayDistance, groundLayer))
         {
-            //Debug.Log("Exiting Ground");
+            Debug.Log("Exiting Ground");
             OnExit(KartState.Flying);
         }
     }
 
+    private float rotate;
+    private float currentRotate;
     public override void LeftStick()
     {
         Vector2 move = input.Kart_Controls.Move.ReadValue<Vector2>();
@@ -65,15 +72,6 @@ public class Ground_State : State_Base
         rotate = 0f;
 
         kartModel.transform.localEulerAngles = Vector3.Lerp(kartModel.transform.localEulerAngles, new Vector3(0f, kartModel.transform.localEulerAngles.y + currentRotate, 0), Time.deltaTime * 4f);
-        if(Mathf.Abs(move.x) > 0)
-        {
-            particleEffect.SetActive(true);
-            particleEffect.transform.rotation = kartModel.transform.localRotation;
-        }
-        else
-        {
-            particleEffect.SetActive(false);
-        }
     }
 
     public void ApplyGravity()
@@ -108,7 +106,9 @@ public class Ground_State : State_Base
 
             if (move.y < -.95)
             {
-                leaveKartAction.InvokeAction();
+                //leaveKartAction.InvokeAction();
+                OnExit(KartState.Ground);
+                kartController.OnLeaveKartEvent();
             }
             else if (move.y > 0)
             {
@@ -130,6 +130,11 @@ public class Ground_State : State_Base
         {
             configureSpeed = 1;
         }
+
+        //test
+        waveController.WaveLength = ((currentSpeed / kart_stats.topSpeed * player_stats.topSpeed) + 1) * 4;
+        //test
+
         rb.AddForce(kartModel.transform.forward * ((currentSpeed * configureSpeed * kart_stats.forceMultiplier.DataValue)));
     }
 

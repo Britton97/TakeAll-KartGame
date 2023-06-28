@@ -5,14 +5,15 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(KartTag))]
-public class KartController : MonoBehaviour
+public class KartController : MonoBehaviour, ICollisionHandlerable
 {
+    [SerializeField] PlayerInfoGetter playerInfoGetter;
     //---Input and Rigidbody---//
-    [SerializeField] private Rigidbody rb;
+    [SerializeField] private Rigidbody colliderBall;
     private Kart_Input input;
     //---Kart Objects---//
     [SerializeField] private GameObject kartNormal;
-    [SerializeField] private GameObject kartModel;
+    [SerializeField] private GameObject modelHolder;
     [SerializeField] private GameObject tiltObject;
     [SerializeField] private GameObject lookAtObject;
     //---State Machine---//
@@ -25,6 +26,8 @@ public class KartController : MonoBehaviour
     [SerializeField] Player_Stats player_stats;
     //---Events---//
     public UnityEvent onAwake;
+    public UnityEvent onLeaveKart;
+    public UnityEvent onEnterKart;
     [SerializeField] DataGameObject cinemachineCam;
 
     #region OnEnable/OnDisable
@@ -46,7 +49,16 @@ public class KartController : MonoBehaviour
         onAwake.Invoke();
         player_stats.ResetStats();
 
-        currentState.OnEnter(rb, kartModel, kartNormal, tiltObject, input, kart_stats, player_stats);
+        if (playerInfoGetter != null)
+        {
+            colliderBall = playerInfoGetter.GetColliderBall();
+        }
+        else
+        {
+            onLeaveKart.Invoke();
+        }
+
+        currentState.OnEnter(colliderBall, modelHolder, kartNormal, tiltObject, input, kart_stats, player_stats);
     }
     public void CreateStateSOs()
     {
@@ -67,22 +79,28 @@ public class KartController : MonoBehaviour
     {
         //currentState equals the state that matches the enum
         currentState = stateDictionary[passIn];
-        currentState.OnEnter(rb, kartModel, kartNormal, tiltObject, input, kart_stats, player_stats);
+        currentState.OnEnter(colliderBall, modelHolder, kartNormal, tiltObject, input, kart_stats, player_stats);
     }
 
-    // Update is called once per frame
-    void Update() { currentState.OnUpdate(); }
+
+    Vector2 move;
+    void Update()
+    {
+        move = input.Kart_Controls.Move.ReadValue<Vector2>();
+        currentState.OnUpdate();
+    }
+
     void FixedUpdate() { currentState.OnFixedUpdate(); }
 
     private void LateUpdate()
     {
-        transform.position = rb.transform.position; //keep this        
+        transform.position = colliderBall.transform.position; //keep this        
     }
 
     public void SetCameraFollow()
     {
         CinemachineFreeLook cinemachineFreeLook = cinemachineCam.DataValue.gameObject.GetComponent<CinemachineFreeLook>();
-        cinemachineFreeLook.Follow = kartModel.transform;
+        cinemachineFreeLook.Follow = modelHolder.transform;
         cinemachineFreeLook.LookAt = lookAtObject.transform;
     }
 
@@ -102,8 +120,24 @@ public class KartController : MonoBehaviour
             if (child.gameObject.tag == "Player Collider")
             {
                 Debug.Log("Found the player collider");
-                rb = child.gameObject.GetComponent<Rigidbody>();
+                colliderBall = child.gameObject.GetComponent<Rigidbody>();
             }
         }
+    }
+
+    public void OnLeaveKartEvent()
+    {
+        onLeaveKart.Invoke();
+        if(playerInfoGetter != null)
+        {
+            playerInfoGetter.PlayerExitKart();
+        }
+    }
+
+    public void CollisionHandler(GameObject hitObject, GameObject hittingObject)
+    {
+        this.enabled = true;
+        onEnterKart.Invoke();
+        //CallOnEnterState(KartState.Ground);
     }
 }

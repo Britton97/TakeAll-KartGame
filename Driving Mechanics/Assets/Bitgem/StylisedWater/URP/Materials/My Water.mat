@@ -71,16 +71,16 @@ Material:
     - Vector1_34CF798A: 1.75
     - Vector1_36E8227: 0.84
     - Vector1_3D886DA1: 0.523
-    - Vector1_46E42935: 0.5
+    - Vector1_46E42935: 0.427
     - Vector1_47683D42: 0.796
     - Vector1_A0EAD698: 0.32
     - Vector1_A6A0BC26: 0
-    - Vector1_B9F56378: 0.1
+    - Vector1_B9F56378: 0.02
     - Vector1_C360A163: 1.42
     - Vector1_DF445019: 1.5
     - Vector1_E03AB928: 0.05
     - Vector1_E5C51606: 1.23
-    - Vector1_F38B44AA: 0.1
+    - Vector1_F38B44AA: 0.16
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -102,7 +102,7 @@ Material:
     - _SrcBlend: 1
     - _Surface: 0
     - _WaveFrequency: 1.49
-    - _WaveScale: 0.09
+    - _WaveScale: 0.03
     - _WaveSpeed: 3
     - _WorkflowMode: 1
     - _ZWrite: 1

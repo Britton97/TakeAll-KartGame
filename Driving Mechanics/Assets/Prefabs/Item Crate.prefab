@@ -51,7 +51,7 @@ MonoBehaviour:
   sideForceMax: 5
   sideForceMin: 1
   upwardForce: 5
-  health: 3
+  health: 2
   myMesh: {fileID: 6034710561711064329}
   myCollider: {fileID: 1820461490721635606}
   animationBehavior: {fileID: 8687123826849570698}
