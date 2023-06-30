@@ -15,8 +15,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private DataFloat forceMultiplier;
     [Range(0,1)]
     [SerializeField] private float moveThreshold = .2f;    
-    [Range(0,1)]
-    [SerializeField] private float turnThreshold = .2f;
     [SerializeField] private GameObject playerMesh;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float applyGravityRayDistance;
@@ -25,13 +23,13 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         input.Enable();
-        Debug.Log("Player Controller Enabled");
+        //Debug.Log("Player Controller Enabled");
     }
 
     private void OnDisable()
     {
         input.Disable();
-        Debug.Log("Player Controller Disabled");
+        //Debug.Log("Player Controller Disabled");
     }
 
     private void Awake()

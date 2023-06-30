@@ -49,6 +49,11 @@ public class KartController : MonoBehaviour, ICollisionHandlerable
         onAwake.Invoke();
         player_stats.ResetStats();
 
+        try
+        {
+            playerInfoGetter = transform.parent.GetComponent<PlayerInfoGetter>();
+        } catch { }
+
         if (playerInfoGetter != null)
         {
             colliderBall = playerInfoGetter.GetColliderBall();
@@ -79,14 +84,14 @@ public class KartController : MonoBehaviour, ICollisionHandlerable
     {
         //currentState equals the state that matches the enum
         currentState = stateDictionary[passIn];
+        Debug.Log($" : <---");
         currentState.OnEnter(colliderBall, modelHolder, kartNormal, tiltObject, input, kart_stats, player_stats);
+
     }
 
 
-    Vector2 move;
     void Update()
     {
-        move = input.Kart_Controls.Move.ReadValue<Vector2>();
         currentState.OnUpdate();
     }
 
@@ -113,9 +118,12 @@ public class KartController : MonoBehaviour, ICollisionHandlerable
     {
         yield return new WaitForEndOfFrame();
         Transform parent = transform.parent;
-        //Debug.Log("Parent is " + parent.name);
+        Debug.Log("Parent is " + parent.name);
+        playerInfoGetter = transform.parent.GetComponent<PlayerInfoGetter>();
+        player_stats = playerInfoGetter.GetPlayerStats();
+        playerInfoGetter.kartController = this;
 
-        foreach(Transform child in parent)
+        foreach (Transform child in parent)
         {
             if (child.gameObject.tag == "Player Collider")
             {
@@ -137,7 +145,15 @@ public class KartController : MonoBehaviour, ICollisionHandlerable
     public void CollisionHandler(GameObject hitObject, GameObject hittingObject)
     {
         this.enabled = true;
+
+        if(hitObject.transform.parent.GetComponent<PlayerInfoGetter>())
+        {
+        Debug.LogError("Called collision handler");
+
+        }
+        playerInfoGetter = hitObject.transform.parent.GetComponent<PlayerInfoGetter>();
+        colliderBall = hitObject.GetComponent<Rigidbody>();
+        CallOnEnterState(KartState.Ground);
         onEnterKart.Invoke();
-        //CallOnEnterState(KartState.Ground);
     }
 }

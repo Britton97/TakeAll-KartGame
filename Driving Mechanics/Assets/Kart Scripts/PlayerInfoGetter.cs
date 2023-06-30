@@ -8,23 +8,28 @@ public class PlayerInfoGetter : MonoBehaviour
     [SerializeField] public PlayerController playerController;
     [SerializeField] private Rigidbody colliderBall;
     [SerializeField] public KartController kartController;
+    [SerializeField] private Player_Stats player_stats;
     [SerializeField] private UnityEvent onEnterKart;
     [SerializeField] private UnityEvent onExitKart;
 
     public void PlayerExitKart()
     {
-        Debug.Log("EXIT");
+        kartController = null;
         onExitKart.Invoke();
     }
 
     public void PlayerEnterKart()
     {
-        Debug.Log("ENTER");
         onEnterKart.Invoke();
     }
 
     public Rigidbody GetColliderBall()
     {
         return colliderBall;
+    }
+
+    public Player_Stats GetPlayerStats()
+    {
+        return player_stats;
     }
 }

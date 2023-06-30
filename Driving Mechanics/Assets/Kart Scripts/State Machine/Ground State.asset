@@ -118,6 +118,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 11400000}
+        m_TargetAssemblyTypeName: Ground_State, Assembly-CSharp
+        m_MethodName: BoardIdleSine
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onExitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -164,3 +176,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   waveEffectPrefab: {fileID: 4503058805829398567, guid: e74bdd35d52a00047a7bce4315699c54, type: 3}
   waveOffset: {x: 0, y: 0, z: 1.8}
+  frequency: 3
+  amplitude: 0.01
+  offset: 0
+  thing: 0

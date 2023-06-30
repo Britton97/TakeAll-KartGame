@@ -15,13 +15,13 @@ public class CollisionHandler : MonoBehaviour
         //Debug.Log($"Collision with {collision.gameObject.name}");
         if(interfaceChecker.CheckInterface(collision.gameObject) != null)
         {
-            onPassedInterfaceCheck.Invoke();
-            CollisionHandlerEvent.Invoke(this.gameObject ,collision.gameObject);
-
             if(collision.gameObject.GetComponent<ICollisionHandlerable>() != null)
             {
                 collision.gameObject.GetComponent<ICollisionHandlerable>().CollisionHandler(this.gameObject, collision.gameObject);
             }
+            CollisionHandlerEvent.Invoke(this.gameObject ,collision.gameObject);
+            onPassedInterfaceCheck.Invoke();
+
         }
     }
 }

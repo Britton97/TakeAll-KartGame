@@ -27,6 +27,12 @@ public class Ground_State : State_Base
     {
         base.OnEnter(passedRB, pKartModel, pKartNormal, pTiltObject, pInput, pStats, pPlayerStats);
 
+
+        if(passedRB == null)
+        {
+            Debug.LogError($"nothing was passed");
+        }
+
         kartModel.transform.localEulerAngles = new Vector3(0, kartModel.transform.localEulerAngles.y, kartModel.transform.localEulerAngles.z);
         currentSpeed = 0f;
         if (waveEffect == null)
@@ -49,6 +55,24 @@ public class Ground_State : State_Base
         base.OnExit(passIn);
         waveEffect.SetActive(false);
     }
+
+    #region Idle Sine Wave
+    public float frequency = 1f;
+    public float amplitude = 1f;
+    public float offset = 0f;
+    private float time = 0f;
+    public bool thing = false;
+    public void BoardIdleSine()
+    {
+        time += Time.deltaTime;
+
+        float y = amplitude * Mathf.Sin(2f * Mathf.PI * frequency * time);
+
+        y = Mathf.Clamp(y, -amplitude, amplitude);
+
+        tiltObject.transform.localPosition = new Vector3(tiltObject.transform.localPosition.x, y + amplitude + offset, tiltObject.transform.localPosition.z);
+    }
+    #endregion
 
     public void AirCheck()
     {
@@ -134,7 +158,6 @@ public class Ground_State : State_Base
         //test
         waveController.WaveLength = ((currentSpeed / kart_stats.topSpeed * player_stats.topSpeed) + 1) * 4;
         //test
-
         rb.AddForce(kartModel.transform.forward * ((currentSpeed * configureSpeed * kart_stats.forceMultiplier.DataValue)));
     }
 
