@@ -96,6 +96,8 @@ public class Ground_State : State_Base
         rotate = 0f;
 
         kartModel.transform.localEulerAngles = Vector3.Lerp(kartModel.transform.localEulerAngles, new Vector3(0f, kartModel.transform.localEulerAngles.y + currentRotate, 0), Time.deltaTime * 4f);
+
+        waveController.ReceiveVector2Input(move);
     }
 
     public void ApplyGravity()
@@ -130,11 +132,10 @@ public class Ground_State : State_Base
 
             if (move.y < -.95)
             {
-                //leaveKartAction.InvokeAction();
                 OnExit(KartState.Ground);
                 kartController.OnLeaveKartEvent();
             }
-            else if (move.y > 0)
+            else if (move.y > 0.25f)
             {
                 currentSpeed = kart_stats.scootSpeed.DataValue;
             }

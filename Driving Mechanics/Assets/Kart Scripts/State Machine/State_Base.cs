@@ -62,8 +62,8 @@ public class State_Base : ScriptableObject
     public virtual void Tilt()
     {
         Vector2 move = input.Kart_Controls.Move.ReadValue<Vector2>();
-        float tiltX = move.x * 20;
-        float tiltY = move.y * 10;
+        float tiltX = move.x * 20; //20
+        float tiltY = move.y * 20; //10
         currentTiltX = Mathf.Lerp(currentTiltX, tiltX, Time.deltaTime * 8f);
         currentTiltY = Mathf.Lerp(currentTiltY, tiltY, Time.deltaTime * 8f);
         tiltObject.transform.localEulerAngles = new Vector3(currentTiltY, tiltObject.transform.localEulerAngles.y, -currentTiltX);
